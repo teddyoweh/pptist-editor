@@ -2,8 +2,8 @@ import type { CSSProperties } from 'vue'
 import type { TableCellStyle } from '@/types/slides'
 
 /**
- * 计算单元格文本样式
- * @param style 单元格文本样式原数据
+ * Calculate cell text style
+ * @param style Cell text style raw data
  */
 export const getTextStyle = (style?: TableCellStyle): CSSProperties => {
   if (!style) return {}

@@ -107,7 +107,7 @@ const getPercentage = (e: MouseEvent | TouchEvent) => {
   return _percentage
 }
 
-// 双滑块（范围）模式
+// Dual slider (range) mode
 const updateRange = (e: MouseEvent | TouchEvent) => {
   const value = getPercentage(e)
 
@@ -132,7 +132,7 @@ const updateRangeEnd = (e: MouseEvent | TouchEvent) => {
   document.removeEventListener('touchend', updateRangeEnd)
 }
 
-// 单滑块模式
+// Single slider mode
 const updatePercentage = (e: MouseEvent | TouchEvent) => {
   percentage.value = getPercentage(e)
 }

@@ -21,7 +21,7 @@ const changeViewMode = (mode: 'base' | 'presenter') => {
 
 const { exitScreening } = useScreening()
 
-// 快捷键退出放映
+// Exit presentation with keyboard shortcut
 const keydownListener = (e: KeyboardEvent) => {
   const key = e.key.toUpperCase()
   if (key === KEYS.ESC) exitScreening()

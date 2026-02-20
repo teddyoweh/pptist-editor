@@ -12,14 +12,14 @@ export default (
   const { activeElementIdList, activeGroupElementId, handleElementId, editorAreaFocus } = storeToRefs(mainStore)
   const { ctrlOrShiftKeyActive } = storeToRefs(useKeyboardStore())
 
-  // 选中元素
-  // startMove 表示是否需要再选中操作后进入到开始移动的状态
+  // Select element
+  // startMove indicates whether to enter move state after selection
   const selectElement = (e: MouseEvent | TouchEvent, element: PPTElement, startMove = true) => {
     if (!editorAreaFocus.value) mainStore.setEditorareaFocus(true)
 
-    // 如果目标元素当前未被选中，则将他设为选中状态
-    // 此时如果按下Ctrl键或Shift键，则进入多选状态，将当前已选中的元素和目标元素一起设置为选中状态，否则仅将目标元素设置为选中状态
-    // 如果目标元素是分组成员，需要将该组合的其他元素一起设置为选中状态
+    // If target element is not selected, set it as selected
+    // If Ctrl or Shift key is pressed, enter multi-select mode and add target to selection; otherwise select only target
+    // If target is a group member, also select other elements in the same group
     if (!activeElementIdList.value.includes(element.id)) {
       let newActiveIdList: string[] = []
 
@@ -40,9 +40,9 @@ export default (
       mainStore.setHandleElementId(element.id)
     }
 
-    // 如果目标元素已被选中，且按下了Ctrl键或Shift键，则取消其被选中状态
-    // 除非目标元素是最后的一个被选中元素，或者目标元素所在的组合是最后一组选中组合
-    // 如果目标元素是分组成员，需要将该组合的其他元素一起取消选中状态
+    // If target element is already selected and Ctrl/Shift key is pressed, deselect it
+    // Unless target is the last selected element or its group is the last selected group
+    // If target is a group member, also deselect other elements in the same group
     else if (ctrlOrShiftKeyActive.value) {
       let newActiveIdList: string[] = []
 
@@ -62,12 +62,12 @@ export default (
       }
     }
 
-    // 如果目标元素已被选中，同时目标元素不是当前操作元素，则将其设置为当前操作元素
+    // If target element is selected but not the current handle element, set it as handle element
     else if (handleElementId.value !== element.id) {
       mainStore.setHandleElementId(element.id)
     }
 
-    // 如果目标元素已被选中，同时也是当前操作元素，那么当目标元素在该状态下再次被点击时，将被设置为多选元素中的激活成员
+    // If target is selected and is the current handle element, clicking it again sets it as the active member in multi-select
     else if (activeGroupElementId.value !== element.id) {
       const startPageX = e instanceof MouseEvent ? e.pageX : e.changedTouches[0].pageX
       const startPageY = e instanceof MouseEvent ? e.pageY : e.changedTouches[0].pageY

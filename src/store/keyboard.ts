@@ -8,9 +8,9 @@ export interface KeyboardState {
 
 export const useKeyboardStore = defineStore('keyboard', {
   state: (): KeyboardState => ({
-    ctrlKeyState: false, // ctrl键按下状态
-    shiftKeyState: false, // shift键按下状态
-    spaceKeyState: false, // space键按下状态
+    ctrlKeyState: false, // Ctrl key pressed state
+    shiftKeyState: false, // Shift key pressed state
+    spaceKeyState: false, // Space key pressed state
   }),
 
   getters: {

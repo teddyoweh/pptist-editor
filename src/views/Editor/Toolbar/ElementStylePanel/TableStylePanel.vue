@@ -5,7 +5,7 @@
         style="width: 50%;"
         :value="textAttrs.fontname"
         search
-        searchLabel="搜索字体"
+        searchLabel="Search Fonts"
         autofocus
         @update:value="value => updateTextAttrs({ fontname: value as string })"
         :options="FONTS"
@@ -18,7 +18,7 @@
         style="width: 50%;"
         :value="textAttrs.fontsize"
         search
-        searchLabel="搜索字号"
+        searchLabel="Search Font Size"
         autofocus
         @update:value="value => updateTextAttrs({ fontsize: value as string })"
         :options="fontSizeOptions.map(item => ({
@@ -39,7 +39,7 @@
             @update:modelValue="value => updateTextAttrs({ color: value })"
           />
         </template>
-        <TextColorButton first v-tooltip="'文字颜色'" :color="textAttrs.color">
+        <TextColorButton first v-tooltip="'Text Color'" :color="textAttrs.color">
           <i-icon-park-outline:text />
         </TextColorButton>
       </Popover>
@@ -50,7 +50,7 @@
             @update:modelValue="value => updateTextAttrs({ backcolor: value })"
           />
         </template>
-        <TextColorButton last v-tooltip="'单元格填充'" :color="textAttrs.backcolor">
+        <TextColorButton last v-tooltip="'Cell Fill'" :color="textAttrs.backcolor">
           <i-icon-park-outline:fill />
         </TextColorButton>
       </Popover>
@@ -60,25 +60,25 @@
       <CheckboxButton 
         style="flex: 1;"
         :checked="textAttrs.bold"
-        v-tooltip="'加粗'"
+        v-tooltip="'Bold'"
         @click="updateTextAttrs({ bold: !textAttrs.bold })"
       ><i-icon-park-outline:text-bold /></CheckboxButton>
       <CheckboxButton 
         style="flex: 1;"
         :checked="textAttrs.em"
-        v-tooltip="'斜体'"
+        v-tooltip="'Italic'"
         @click="updateTextAttrs({ em: !textAttrs.em })"
       ><i-icon-park-outline:text-italic /></CheckboxButton>
       <CheckboxButton 
         style="flex: 1;"
         :checked="textAttrs.underline"
-        v-tooltip="'下划线'"
+        v-tooltip="'Underline'"
         @click="updateTextAttrs({ underline: !textAttrs.underline })"
       ><i-icon-park-outline:text-underline /></CheckboxButton>
       <CheckboxButton 
         style="flex: 1;"
         :checked="textAttrs.strikethrough"
-        v-tooltip="'删除线'"
+        v-tooltip="'Strikethrough'"
         @click="updateTextAttrs({ strikethrough: !textAttrs.strikethrough })"
       ><i-icon-park-outline:strikethrough /></CheckboxButton>
     </ButtonGroup>
@@ -89,10 +89,10 @@
       :value="textAttrs.align"
       @update:value="value => updateTextAttrs({ align: value as TextAlign })"
     >
-      <RadioButton value="left" v-tooltip="'左对齐'" style="flex: 1;"><i-icon-park-outline:align-text-left /></RadioButton>
-      <RadioButton value="center" v-tooltip="'居中'" style="flex: 1;"><i-icon-park-outline:align-text-center /></RadioButton>
-      <RadioButton value="right" v-tooltip="'右对齐'" style="flex: 1;"><i-icon-park-outline:align-text-right /></RadioButton>
-      <RadioButton value="justify" v-tooltip="'两端对齐'" style="flex: 1;"><i-icon-park-outline:align-text-both /></RadioButton>
+      <RadioButton value="left" v-tooltip="'Align Left'" style="flex: 1;"><i-icon-park-outline:align-text-left /></RadioButton>
+      <RadioButton value="center" v-tooltip="'Center'" style="flex: 1;"><i-icon-park-outline:align-text-center /></RadioButton>
+      <RadioButton value="right" v-tooltip="'Align Right'" style="flex: 1;"><i-icon-park-outline:align-text-right /></RadioButton>
+      <RadioButton value="justify" v-tooltip="'Justify'" style="flex: 1;"><i-icon-park-outline:align-text-both /></RadioButton>
     </RadioGroup>
 
     <Divider />
@@ -102,7 +102,7 @@
     <Divider />
 
     <div class="row">
-      <div style="width: 40%;">行数：</div>
+      <div style="width: 40%;">Rows:</div>
       <div class="set-count" style="width: 60%;">
         <Button class="btn" :disabled="rowCount <= 1" @click="setTableRow(rowCount - 1)"><i-icon-park-outline:minus /></Button>
         <div class="count-text">{{rowCount}}</div>
@@ -110,7 +110,7 @@
       </div>
     </div>
     <div class="row">
-      <div style="width: 40%;">列数：</div>
+      <div style="width: 40%;">Columns:</div>
       <div class="set-count" style="width: 60%;">
         <Button class="btn" :disabled="colCount <= 1" @click="setTableCol(colCount - 1)"><i-icon-park-outline:minus /></Button>
         <div class="count-text">{{colCount}}</div>
@@ -121,7 +121,7 @@
     <Divider />
 
     <div class="row theme-switch">
-      <div style="width: 40%;">启用主题表格：</div>
+      <div style="width: 40%;">Enable Table Theme:</div>
       <div class="switch-wrapper" style="width: 60%;">
         <Switch 
           :value="hasTheme" 
@@ -136,27 +136,27 @@
           @update:value="value => updateTheme({ rowHeader: value })" 
           :value="theme.rowHeader" 
           style="flex: 1;"
-        >标题行</Checkbox>
+        >Header Row</Checkbox>
         <Checkbox 
           @update:value="value => updateTheme({ rowFooter: value })" 
           :value="theme.rowFooter" 
           style="flex: 1;"
-        >汇总行</Checkbox>
+        >Total Row</Checkbox>
       </div>
       <div class="row">
         <Checkbox 
           @update:value="value => updateTheme({ colHeader: value })" 
           :value="theme.colHeader" 
           style="flex: 1;"
-        >第一列</Checkbox>
+        >First Column</Checkbox>
         <Checkbox 
           @update:value="value => updateTheme({ colFooter: value })" 
           :value="theme.colFooter" 
           style="flex: 1;"
-        >最后一列</Checkbox>
+        >Last Column</Checkbox>
       </div>
       <div class="row">
-        <div style="width: 40%;">主题颜色：</div>
+        <div style="width: 40%;">Theme Color:</div>
         <Popover trigger="click" style="width: 60%;">
           <template #content>
             <ColorPicker
@@ -238,7 +238,7 @@ watch(handleElement, () => {
 
 const { addHistorySnapshot } = useHistorySnapshot()
 
-// 更新当前选中单元格的文本样式状态
+// Update text style state of currently selected cell
 const updateTextAttrState = () => {
   if (!handleElement.value || handleElement.value.type !== 'table') return
 
@@ -290,7 +290,7 @@ const updateElement = (props: Partial<PPTTableElement>) => {
   addHistorySnapshot()
 }
 
-// 设置单元格内容文本样式
+// Set cell content text style
 const updateTextAttrs = (textAttrProp: Partial<TableCellStyle>) => {
   const _handleElement = handleElement.value as PPTTableElement
 
@@ -308,14 +308,14 @@ const updateTextAttrs = (textAttrProp: Partial<TableCellStyle>) => {
   updateTextAttrState()
 }
 
-// 更新表格主题：主题色、标题行、汇总行、第一列、最后一列
+// Update table theme: theme color, header row, total row, first column, last column
 const updateTheme = (themeProp: Partial<TableTheme>) => {
   if (!theme.value) return
   const _theme = { ...theme.value, ...themeProp }
   updateElement({ theme: _theme })
 }
 
-// 开启/关闭表格主题
+// Enable/disable table theme
 const toggleTheme = (checked: boolean) => {
   if (checked) {
     const props = {
@@ -335,7 +335,7 @@ const toggleTheme = (checked: boolean) => {
   }
 }
 
-// 设置表格行数
+// Set table row count
 const setTableRow = (value: number) => {
   const _handleElement = handleElement.value as PPTTableElement
   const rowCount = _handleElement.data.length
@@ -355,7 +355,7 @@ const setTableRow = (value: number) => {
   }
 }
 
-// 设置表格列数
+// Set table column count
 const setTableCol = (value: number) => {
   const _handleElement = handleElement.value as PPTTableElement
   const colCount = _handleElement.data[0].length

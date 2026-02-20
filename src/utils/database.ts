@@ -16,10 +16,10 @@ export interface Snapshot {
 
 const databaseNamePrefix = 'PPTist'
 
-// 删除失效/过期的数据库
-// 应用关闭时（关闭或刷新浏览器），会将其数据库ID记录在 localStorage 中，表示该ID指向的数据库已失效
-// 当应用初始化时，检查当前所有数据库，将被记录失效的数据库删除
-// 另外，距离初始化时间超过12小时的数据库也将被删除（这是为了防止出现因意外未被正确删除的库）
+// Delete invalid/expired databases
+// When the app closes (browser close or refresh), its database ID is recorded in localStorage, indicating the database is invalid
+// When the app initializes, check all current databases and delete those marked as invalid
+// Additionally, databases older than 12 hours from initialization time will be deleted (to prevent databases that weren't properly deleted due to unexpected issues)
 export const deleteDiscardedDB = async () => {
   const now = new Date().getTime()
 

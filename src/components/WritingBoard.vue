@@ -106,16 +106,16 @@ let lastLineWidth = -1
 
 let initialImageData: ImageData | null = null
 
-// 鼠标位置坐标：用于画笔或橡皮位置跟随
+// Mouse position coordinates: used for pen or eraser position tracking
 const mouse = ref({
   x: 0,
   y: 0,
 })
 
-// 鼠标是否处在画布范围内：处在范围内才会显示画笔或橡皮
+// Whether mouse is within canvas bounds: pen or eraser only shown when in bounds
 const mouseInCanvas = ref(false)
 
-// 监听更新canvas尺寸
+// Watch and update canvas size
 const canvasWidth = ref(0)
 const canvasHeight = ref(0)
 
@@ -135,7 +135,7 @@ onUnmounted(() => {
   if (writingBoardRef.value) resizeObserver.unobserve(writingBoardRef.value)
 })
 
-// 初始化画布
+// Initialize canvas
 const initCanvas = () => {
   if (!canvasRef.value || !writingBoardRef.value) return
 
@@ -150,7 +150,7 @@ const initCanvas = () => {
 }
 onMounted(initCanvas)
 
-// 切换画笔模式时，更新 canvas ctx 配置
+// Update canvas ctx configuration when switching pen mode
 const updateCtx = () => {
   if (!ctx) return
   if (props.model === 'mark') {
@@ -164,7 +164,7 @@ const updateCtx = () => {
 }
 watch(() => props.model, updateCtx)
 
-// 绘制画笔墨迹方法
+// Draw pen stroke method
 const draw = (posX: number, posY: number, lineWidth: number) => {
   if (!ctx) return
 
@@ -180,7 +180,7 @@ const draw = (posX: number, posY: number, lineWidth: number) => {
   ctx.closePath()
 }
 
-// 擦除墨迹方法
+// Erase stroke method
 const erase = (posX: number, posY: number) => {
   if (!ctx || !canvasRef.value) return
   const lastPosX = lastPos.x
@@ -214,14 +214,14 @@ const erase = (posX: number, posY: number) => {
   ctx.restore()
 }
 
-// 计算鼠标两次移动之间的距离
+// Calculate distance between two mouse movements
 const getDistance = (posX: number, posY: number) => {
   const lastPosX = lastPos.x
   const lastPosY = lastPos.y
   return Math.sqrt((posX - lastPosX) * (posX - lastPosX) + (posY - lastPosY) * (posY - lastPosY))
 }
 
-// 根据鼠标两次移动之间的距离s和时间t计算绘制速度，速度越快，墨迹越细
+// Calculate drawing speed based on distance s and time t between mouse movements; faster speed = thinner stroke
 const getLineWidth = (s: number, t: number) => {
   const maxV = 10
   const minV = 0.1
@@ -238,7 +238,7 @@ const getLineWidth = (s: number, t: number) => {
   return lineWidth * 1 / 3 + lastLineWidth * 2 / 3
 }
 
-// 形状绘制
+// Shape drawing
 const drawShape = (currentX: number, currentY: number) => {
   if (!ctx || !initialImageData) return
 
@@ -324,7 +324,7 @@ const drawShape = (currentX: number, currentY: number) => {
   }
 }
 
-// 路径操作
+// Path operations
 const handleMove = (x: number, y: number) => {
   const time = new Date().getTime()
 
@@ -352,7 +352,7 @@ const handleMove = (x: number, y: number) => {
   }
 }
 
-// 获取鼠标在canvas中的相对位置
+// Get mouse relative position in canvas
 const getMouseOffsetPosition = (e: MouseEvent | TouchEvent) => {
   if (!canvasRef.value) return [0, 0]
   const event = e instanceof MouseEvent ? e : e.changedTouches[0]
@@ -362,8 +362,8 @@ const getMouseOffsetPosition = (e: MouseEvent | TouchEvent) => {
   return [x, y]
 }
 
-// 处理鼠标（触摸）事件
-// 准备开始绘制/擦除墨迹（落笔）
+// Handle mouse (touch) events
+// Prepare to start drawing/erasing stroke (pen down)
 const handleMousedown = (e: MouseEvent | TouchEvent) => {
   const [mouseX, mouseY] = getMouseOffsetPosition(e)
   const x = mouseX / widthScale.value
@@ -382,7 +382,7 @@ const handleMousedown = (e: MouseEvent | TouchEvent) => {
   }
 }
 
-// 开始绘制/擦除墨迹（移动）
+// Start drawing/erasing stroke (moving)
 const handleMousemove = (e: MouseEvent | TouchEvent) => {
   const [mouseX, mouseY] = getMouseOffsetPosition(e)
   const x = mouseX / widthScale.value
@@ -393,26 +393,26 @@ const handleMousemove = (e: MouseEvent | TouchEvent) => {
   if (isMouseDown) handleMove(x, y)
 }
 
-// 结束绘制/擦除墨迹（停笔）
+// End drawing/erasing stroke (pen up)
 const handleMouseup = () => {
   if (!isMouseDown) return
   isMouseDown = false
   emit('end')
 }
 
-// 清空画布
+// Clear canvas
 const clearCanvas = () => {
   if (!ctx || !canvasRef.value) return
   ctx.clearRect(0, 0, canvasRef.value.width, canvasRef.value.height)
   emit('end')
 }
 
-// 获取 DataURL
+// Get DataURL
 const getImageDataURL = () => {
   return canvasRef.value?.toDataURL()
 }
 
-// 设置 DataURL（绘制图片到 canvas）
+// Set DataURL (draw image to canvas)
 const setImageDataURL = (imageDataURL: string) => {
   if (!ctx || !canvasRef.value) return
   

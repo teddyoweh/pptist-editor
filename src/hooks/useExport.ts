@@ -37,7 +37,7 @@ export default () => {
 
   const exporting = ref(false)
 
-  // 导出图片
+  // Export image
   const exportImage = (domRef: HTMLElement, format: string, quality: number, ignoreWebfont = true) => {
     exporting.value = true
     const toImage = format === 'png' ? toPng : toJpeg
@@ -58,12 +58,12 @@ export default () => {
         saveAs(dataUrl, `${title.value}.${format}`)
       }).catch(() => {
         exporting.value = false
-        message.error('导出图片失败')
+        message.error('Failed to export image')
       })
     }, 200)
   }
 
-  // 导出图片版PPTX
+  // Export PPTX with images
   const exportImagePPTX = (domRefs: NodeListOf<Element>) => {
     exporting.value = true
     
@@ -98,12 +98,12 @@ export default () => {
         pptx.writeFile({ fileName: `${title.value}.pptx` }).then(() => exporting.value = false)
       }).catch(() => {
         exporting.value = false
-        message.error('导出失败')
+        message.error('Export failed')
       })
     }, 200)
   }
   
-  // 导出pptist文件（特有 .pptist 后缀文件）
+  // Export pptist file (proprietary .pptist format)
   const exportSpecificFile = (_slides: Slide[]) => {
     const json = {
       title: title.value,
@@ -116,7 +116,7 @@ export default () => {
     saveAs(blob, `${title.value}.pptist`)
   }
   
-  // 导出JSON文件
+  // Export JSON file
   const exportJSON = () => {
     const json = {
       title: title.value,
@@ -129,7 +129,7 @@ export default () => {
     saveAs(blob, `${title.value}.json`)
   }
 
-  // 格式化颜色值为 透明度 + HexString，供pptxgenjs使用
+  // Format color value to alpha + HexString for pptxgenjs
   const formatColor = (_color: string) => {
     if (!_color) {
       return {
@@ -149,8 +149,8 @@ export default () => {
 
   type FormatColor = ReturnType<typeof formatColor>
 
-  // 将HTML字符串格式化为pptxgenjs所需的格式
-  // 核心思路：将HTML字符串按样式分片平铺，每个片段需要继承祖先元素的样式信息，遇到块级元素需要换行
+  // Format HTML string to the format required by pptxgenjs
+  // Core idea: Flatten HTML string by style segments, each segment inherits ancestor element styles, line breaks on block-level elements
   const formatHTML = (html: string) => {
     const ast = toAST(html)
     let bulletFlag = false
@@ -295,7 +295,7 @@ export default () => {
     | { close: true }
   >
 
-  // 将SVG路径信息格式化为pptxgenjs所需要的格式
+  // Format SVG path information to the format required by pptxgenjs
   const formatPoints = (points: SvgPoints, scale = { x: 1, y: 1 }): Points => {
     return points.map(point => {
       if (point.close !== undefined) {
@@ -341,7 +341,7 @@ export default () => {
     })
   }
 
-  // 获取阴影配置
+  // Get shadow configuration
   const getShadowOption = (shadow: PPTElementShadow): pptxgen.ShadowProps => {
     const c = formatColor(shadow.color)
     const { h, v } = shadow
@@ -406,7 +406,7 @@ export default () => {
     'dotted': 'sysDot',
   }
 
-  // 获取边框配置
+  // Get outline configuration
   const getOutlineOption = (outline: PPTElementOutline): pptxgen.ShapeLineProps => {
     const c = formatColor(outline?.color || '#000000')
     
@@ -418,7 +418,7 @@ export default () => {
     }
   }
 
-  // 获取超链接配置
+  // Get hyperlink configuration
   const getLinkOption = (link: PPTElementLink): pptxgen.HyperlinkProps | null => {
     const { type, target } = link
     if (type === 'web') return { url: target }
@@ -430,20 +430,20 @@ export default () => {
     return null
   }
 
-  // 判断是否为Base64图片地址
+  // Check if URL is a Base64 image
   const isBase64Image = (url: string) => {
     const regex = /^data:image\/[^;]+;base64,/
     return url.match(regex) !== null
   }
 
-  // 判断是否为SVG图片地址
+  // Check if URL is an SVG image
   const isSVGImage = (url: string) => {
     const isSVGBase64 = /^data:image\/svg\+xml;base64,/.test(url)
     const isSVGUrl = /\.svg$/.test(url)
     return isSVGBase64 || isSVGUrl
   }
 
-  // 导出PPTX文件
+  // Export PPTX file
   const exportPPTX = (_slides: Slide[], masterOverwrite: boolean, ignoreMedia: boolean) => {
     exporting.value = true
     const pptx = new pptxgen()
@@ -526,7 +526,7 @@ export default () => {
             w: el.width / ratioPx2Inch.value,
             h: el.height / ratioPx2Inch.value,
             fontSize: defaultFontSize / ratioPx2Pt.value,
-            fontFace: '微软雅黑',
+            fontFace: 'Microsoft YaHei',
             color: '#000000',
             valign: 'top',
             margin: 10 / ratioPx2Pt.value,
@@ -671,7 +671,7 @@ export default () => {
               w: el.width / ratioPx2Inch.value,
               h: el.height / ratioPx2Inch.value,
               fontSize: defaultFontSize / ratioPx2Pt.value,
-              fontFace: '微软雅黑',
+              fontFace: 'Microsoft YaHei',
               color: '#000000',
               paraSpaceBefore: 5 / ratioPx2Pt.value,
               valign: el.text.align,
@@ -735,7 +735,7 @@ export default () => {
           for (let i = 0; i < el.data.series.length; i++) {
             const item = el.data.series[i]
             chartData.push({
-              name: `系列${i + 1}`,
+              name: `Series${i + 1}`,
               labels: el.data.labels,
               values: item,
             })
@@ -862,7 +862,7 @@ export default () => {
                 underline: { style: cell.style?.underline ? 'sng' : 'none' },
                 align: cell.style?.align || 'left',
                 valign: 'middle',
-                fontFace: cell.style?.fontname || '微软雅黑',
+                fontFace: cell.style?.fontname || 'Microsoft YaHei',
                 fontSize: (cell.style?.fontsize ? parseInt(cell.style?.fontsize) : 14) / ratioPx2Pt.value,
               }
               if (theme && themeColor) {
@@ -964,7 +964,7 @@ export default () => {
     setTimeout(() => {
       pptx.writeFile({ fileName: `${title.value}.pptx` }).then(() => exporting.value = false).catch(() => {
         exporting.value = false
-        message.error('导出失败')
+        message.error('Export failed')
       })
     }, 200)
   }
@@ -1052,7 +1052,7 @@ export default () => {
               w: el.width / ratioPx2Inch.value,
               h: el.height / ratioPx2Inch.value,
               fontSize: defaultFontSize / ratioPx2Pt.value,
-              fontFace: '微软雅黑',
+              fontFace: 'Microsoft YaHei',
               color: '#000000',
               valign: 'top',
               margin: 10 / ratioPx2Pt.value,
@@ -1181,7 +1181,7 @@ export default () => {
                 w: el.width / ratioPx2Inch.value,
                 h: el.height / ratioPx2Inch.value,
                 fontSize: defaultFontSize / ratioPx2Pt.value,
-                fontFace: '微软雅黑',
+                fontFace: 'Microsoft YaHei',
                 color: '#000000',
                 paraSpaceBefore: 5 / ratioPx2Pt.value,
                 valign: el.text.align,
@@ -1238,7 +1238,7 @@ export default () => {
             for (let i = 0; i < el.data.series.length; i++) {
               const item = el.data.series[i]
               chartData.push({
-                name: `系列${i + 1}`,
+                name: `Series${i + 1}`,
                 labels: el.data.labels,
                 values: item,
               })
@@ -1343,7 +1343,7 @@ export default () => {
                   underline: { style: cell.style?.underline ? 'sng' : 'none' },
                   align: cell.style?.align || 'left',
                   valign: 'middle',
-                  fontFace: cell.style?.fontname || '微软雅黑',
+                  fontFace: cell.style?.fontname || 'Microsoft YaHei',
                   fontSize: (cell.style?.fontsize ? parseInt(cell.style?.fontsize) : 14) / ratioPx2Pt.value,
                 }
                 if (theme && themeColor) {

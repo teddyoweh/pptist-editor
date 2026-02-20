@@ -60,7 +60,7 @@
         </template>
 
         <div class="row-block" v-if="textColorPropsEnable">
-          <div class="label">文字颜色：</div>
+          <div class="label">Text Color:</div>
           <div class="colors">
             <div class="color" 
               v-for="color in colors" 
@@ -80,7 +80,7 @@
           </div>
         </div>
         <div class="row-block" v-if="fillPropsEnable">
-          <div class="label">填充色：</div>
+          <div class="label">Fill Color:</div>
           <div class="colors">
             <div class="color" 
               v-for="color in colors" 
@@ -100,35 +100,35 @@
           </div>
         </div>
 
-        <div class="tip" v-if="!textPropsEnable && !textColorPropsEnable && !fillPropsEnable">暂无可用属性</div>
+        <div class="tip" v-if="!textPropsEnable && !textColorPropsEnable && !fillPropsEnable">No properties available</div>
       </div>
 
       <div class="common" v-if="activeTab === 'common'">
         <ButtonGroup class="row">
-          <Button style="flex: 1;" @click="copyElement()"><i-icon-park-outline:copy class="icon" /> 复制</Button>
-          <Button style="flex: 1;" @click="deleteElement()"><i-icon-park-outline:delete class="icon" /> 删除</Button>
+          <Button style="flex: 1;" @click="copyElement()"><i-icon-park-outline:copy class="icon" /> Copy</Button>
+          <Button style="flex: 1;" @click="deleteElement()"><i-icon-park-outline:delete class="icon" /> Delete</Button>
         </ButtonGroup>
         
         <Divider :margin="20" />
 
         <ButtonGroup class="row">
-          <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.TOP)"><i-icon-park-outline:send-to-back class="icon" /> 置顶</Button>
-          <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.BOTTOM)"><i-icon-park-outline:bring-to-front-one class="icon" /> 置底</Button>
-          <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.UP)"><i-icon-park-outline:bring-to-front class="icon" /> 上移</Button>
-          <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.DOWN)"><i-icon-park-outline:sent-to-back class="icon" /> 下移</Button>
+          <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.TOP)"><i-icon-park-outline:send-to-back class="icon" /> To Front</Button>
+          <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.BOTTOM)"><i-icon-park-outline:bring-to-front-one class="icon" /> To Back</Button>
+          <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.UP)"><i-icon-park-outline:bring-to-front class="icon" /> Forward</Button>
+          <Button style="flex: 1;" @click="orderElement(handleElement!, ElementOrderCommands.DOWN)"><i-icon-park-outline:sent-to-back class="icon" /> Backward</Button>
         </ButtonGroup>
         
         <Divider :margin="20" />
 
         <ButtonGroup class="row">
-          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.LEFT)"><i-icon-park-outline:align-left class="icon" /> 左对齐</Button>
-          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.HORIZONTAL)"><i-icon-park-outline:align-vertically class="icon" /> 水平居中</Button>
-          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.RIGHT)"><i-icon-park-outline:align-right class="icon" /> 右对齐</Button>
+          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.LEFT)"><i-icon-park-outline:align-left class="icon" /> Align Left</Button>
+          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.HORIZONTAL)"><i-icon-park-outline:align-vertically class="icon" /> Center H</Button>
+          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.RIGHT)"><i-icon-park-outline:align-right class="icon" /> Align Right</Button>
         </ButtonGroup>
         <ButtonGroup class="row">
-          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.TOP)"><i-icon-park-outline:align-top class="icon" /> 上对齐</Button>
-          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.VERTICAL)"><i-icon-park-outline:align-horizontally class="icon" /> 垂直居中</Button>
-          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.BOTTOM)"><i-icon-park-outline:align-bottom class="icon" /> 下对齐</Button>
+          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.TOP)"><i-icon-park-outline:align-top class="icon" /> Align Top</Button>
+          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.VERTICAL)"><i-icon-park-outline:align-horizontally class="icon" /> Center V</Button>
+          <Button style="flex: 1;" @click="alignElementToCanvas(ElementAlignCommands.BOTTOM)"><i-icon-park-outline:align-bottom class="icon" /> Align Bottom</Button>
         </ButtonGroup>
       </div>
     </div>
@@ -177,8 +177,8 @@ const updateElement = (id: string, props: Partial<PPTElement>) => {
 }
 
 const tabs: TabItem[] = [
-  { key: 'style', label: '样式' },
-  { key: 'common', label: '布局' },
+  { key: 'style', label: 'Style' },
+  { key: 'common', label: 'Layout' },
 ]
 const activeTab = ref('common')
 

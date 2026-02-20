@@ -30,7 +30,7 @@ export interface SlidesState {
 
 export const useSlidesStore = defineStore('slides', {
   state: (): SlidesState => ({
-    title: '未命名演示文稿', // 幻灯片标题
+    title: 'Untitled Presentation', // Slide title
     theme: {
       themeColors: ['#5b9bd5', '#ed7d31', '#a5a5a5', '#ffc000', '#4472c4', '#70ad47'],
       fontColor: '#333',
@@ -47,21 +47,21 @@ export const useSlidesStore = defineStore('slides', {
         color: '#525252',
         style: 'solid',
       },
-    }, // 主题样式
-    slides: [], // 幻灯片页面数据
-    slideIndex: 0, // 当前页面索引
-    viewportSize: 1000, // 可视区域宽度基数
-    viewportRatio: 0.5625, // 可视区域比例，默认16:9
+    }, // Theme styles
+    slides: [], // Slide page data
+    slideIndex: 0, // Current page index
+    viewportSize: 1000, // Viewport width base
+    viewportRatio: 0.5625, // Viewport ratio, default 16:9
     templates: [
-      { name: '山河映红', id: 'template_1', cover: './imgs/template_1.webp', origin: '官方制作' },
-      { name: '都市蓝调', id: 'template_2', cover: './imgs/template_2.webp', origin: '官方制作' },
-      { name: '智感几何', id: 'template_3', cover: './imgs/template_3.webp', origin: '官方制作' },
-      { name: '柔光莫兰迪', id: 'template_4', cover: './imgs/template_4.webp', origin: '官方制作' },
-      { name: '简约绿意', id: 'template_5', cover: './imgs/template_5.webp', origin: '社区贡献+官方深度完善优化' },
-      { name: '暖色复古', id: 'template_6', cover: './imgs/template_6.webp', origin: '社区贡献+官方深度完善优化' },
-      { name: '深邃沉稳', id: 'template_7', cover: './imgs/template_7.webp', origin: '社区贡献+官方深度完善优化' },
-      { name: '浅蓝小清新', id: 'template_8', cover: './imgs/template_8.webp', origin: '社区贡献+官方深度完善优化' },
-    ], // 模板
+      { name: 'Mountain Red', id: 'template_1', cover: './imgs/template_1.webp', origin: 'Official' },
+      { name: 'Urban Blue', id: 'template_2', cover: './imgs/template_2.webp', origin: 'Official' },
+      { name: 'Smart Geometry', id: 'template_3', cover: './imgs/template_3.webp', origin: 'Official' },
+      { name: 'Soft Morandi', id: 'template_4', cover: './imgs/template_4.webp', origin: 'Official' },
+      { name: 'Simple Green', id: 'template_5', cover: './imgs/template_5.webp', origin: 'Community + Official Enhanced' },
+      { name: 'Warm Retro', id: 'template_6', cover: './imgs/template_6.webp', origin: 'Community + Official Enhanced' },
+      { name: 'Deep Calm', id: 'template_7', cover: './imgs/template_7.webp', origin: 'Community + Official Enhanced' },
+      { name: 'Light Blue Fresh', id: 'template_8', cover: './imgs/template_8.webp', origin: 'Community + Official Enhanced' },
+    ], // Templates
   }),
 
   getters: {
@@ -78,9 +78,9 @@ export const useSlidesStore = defineStore('slides', {
       return currentSlide.animations.filter(animation => elIds.includes(animation.elId))
     },
 
-    // 格式化的当前页动画
-    // 将触发条件为“与上一动画同时”的项目向上合并到序列中的同一位置
-    // 为触发条件为“上一动画之后”项目的上一项添加自动向下执行标记
+    // Formatted current page animations
+    // Merge items with trigger "with previous animation" up to the same position in sequence
+    // Add auto-execute-next flag to the previous item for items with trigger "after previous animation"
     formatedAnimations(state) {
       const currentSlide = state.slides[state.slideIndex]
       if (!currentSlide?.animations) return []
@@ -113,7 +113,7 @@ export const useSlidesStore = defineStore('slides', {
 
   actions: {
     setTitle(title: string) {
-      if (!title) this.title = '未命名演示文稿'
+      if (!title) this.title = 'Untitled Presentation'
       else this.title = title
     },
 

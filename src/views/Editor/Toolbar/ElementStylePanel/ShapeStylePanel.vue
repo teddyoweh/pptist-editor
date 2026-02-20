@@ -1,7 +1,7 @@
 <template>
   <div class="shape-style-panel">
     <div class="title">
-      <span>点击替换形状</span>
+      <span>Click to Replace Shape</span>
       <i-icon-park-outline:down />
     </div>
     <div class="shape-pool">
@@ -24,9 +24,9 @@
         :value="fillType" 
         @update:value="value => updateFillType(value as 'fill' | 'gradient' | 'pattern')"
         :options="[
-          { label: '纯色填充', value: 'fill' },
-          { label: '渐变填充', value: 'gradient' },
-          { label: '图片填充', value: 'pattern' },
+          { label: 'Solid Fill', value: 'fill' },
+          { label: 'Gradient Fill', value: 'gradient' },
+          { label: 'Image Fill', value: 'pattern' },
         ]"
       />
       <div style="width: 10px;" v-if="fillType !== 'pattern'"></div>
@@ -45,8 +45,8 @@
         @update:value="value => updateGradient({ type: value as GradientType })"
         v-else-if="fillType === 'gradient'"
         :options="[
-          { label: '线性渐变', value: 'linear' },
-          { label: '径向渐变', value: 'radial' },
+          { label: 'Linear Gradient', value: 'linear' },
+          { label: 'Radial Gradient', value: 'radial' },
         ]"
       />
     </div>
@@ -61,7 +61,7 @@
         />
       </div>
       <div class="row">
-        <div style="width: 40%;">当前色块：</div>
+        <div style="width: 40%;">Current Color:</div>
         <Popover trigger="click" style="width: 60%;">
           <template #content>
             <ColorPicker
@@ -73,7 +73,7 @@
         </Popover>
       </div>
       <div class="row" v-if="gradient.type === 'linear'">
-        <div style="width: 40%;">渐变角度：</div>
+        <div style="width: 40%;">Gradient Angle:</div>
         <Slider
           style="width: 60%;"
           :min="0"
@@ -106,12 +106,12 @@
       <Divider />
 
       <div class="row">
-        <div style="width: 40%;">行间距：</div>
+        <div style="width: 40%;">Line Spacing:</div>
         <Select style="width: 60%;"
           :value="lineHeight || 1"
           @update:value="value => updateTextProps({ lineHeight: value as number })"
           :options="lineHeightOptions.map(item => ({
-            label: item + '倍', value: item
+            label: item + 'x', value: item
           }))"
         >
           <template #icon>
@@ -120,7 +120,7 @@
         </Select>
       </div>
       <div class="row">
-        <div style="width: 40%;">段间距：</div>
+        <div style="width: 40%;">Paragraph Spacing:</div>
         <Select style="width: 60%;"
           :value="paragraphSpace || 0"
           @update:value="value => updateTextProps({ paragraphSpace: value as number })"
@@ -134,7 +134,7 @@
         </Select>
       </div>
       <div class="row">
-        <div style="width: 40%;">字间距：</div>
+        <div style="width: 40%;">Letter Spacing:</div>
         <Select style="width: 60%;"
           :value="wordSpace || 0"
           @update:value="value => updateTextProps({ wordSpace: value as number })"
@@ -156,9 +156,9 @@
         :value="textAlign"
         @update:value="value => updateTextProps({ align: value as 'top' | 'middle' | 'bottom' })"
       >
-        <RadioButton value="top" v-tooltip="'顶对齐'" style="flex: 1;"><i-icon-park-outline:align-text-top-one /></RadioButton>
-        <RadioButton value="middle" v-tooltip="'居中'" style="flex: 1;"><i-icon-park-outline:align-text-middle-one /></RadioButton>
-        <RadioButton value="bottom" v-tooltip="'底对齐'" style="flex: 1;"><i-icon-park-outline:align-text-bottom-one /></RadioButton>
+        <RadioButton value="top" v-tooltip="'Align Top'" style="flex: 1;"><i-icon-park-outline:align-text-top-one /></RadioButton>
+        <RadioButton value="middle" v-tooltip="'Center'" style="flex: 1;"><i-icon-park-outline:align-text-middle-one /></RadioButton>
+        <RadioButton value="bottom" v-tooltip="'Align Bottom'" style="flex: 1;"><i-icon-park-outline:align-text-bottom-one /></RadioButton>
       </RadioGroup>
 
       <Divider />
@@ -173,12 +173,12 @@
 
     <div class="row">
       <CheckboxButton
-        v-tooltip="'双击连续使用'"
+        v-tooltip="'Double-click for continuous use'"
         style="flex: 1;"
         :checked="!!shapeFormatPainter"
         @click="toggleShapeFormatPainter()"
         @dblclick="toggleShapeFormatPainter(true)"
-      ><i-icon-park-outline:format-brush /> 形状格式刷</CheckboxButton>
+      ><i-icon-park-outline:format-brush /> Format Painter</CheckboxButton>
     </div>
   </div>
 </template>
@@ -271,7 +271,7 @@ const updateElement = (props: Partial<PPTShapeElement>) => {
   addHistorySnapshot()
 }
 
-// 设置填充类型：渐变、纯色
+// Set fill type: gradient, solid color
 const updateFillType = (type: 'gradient' | 'fill' | 'pattern') => {
   if (type === 'fill') {
     slidesStore.removeElementProps({ id: handleElementId.value, propName: ['gradient', 'pattern'] })
@@ -288,7 +288,7 @@ const updateFillType = (type: 'gradient' | 'fill' | 'pattern') => {
   }
 }
 
-// 设置渐变填充
+// Set gradient fill
 const updateGradient = (gradientProps: Partial<Gradient>) => {
   if (!gradient.value) return
   const _gradient = { ...gradient.value, ...gradientProps }
@@ -302,7 +302,7 @@ const updateGradientColors = (color: string) => {
   updateGradient({ colors })
 }
 
-// 上传填充图片
+// Upload fill image
 const uploadPattern = (files: FileList) => {
   const imageFile = files[0]
   if (!imageFile) return
@@ -312,12 +312,12 @@ const uploadPattern = (files: FileList) => {
   })
 }
 
-// 设置填充色
+// Set fill color
 const updateFill = (value: string) => {
   updateElement({ fill: value })
 }
 
-// 修改形状
+// Change shape
 const changeShape = (shape: ShapePoolItem) => {
   const { width, height } = handleElement.value as PPTShapeElement
   const props: Partial<PPTShapeElement> = {

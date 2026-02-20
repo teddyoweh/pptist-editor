@@ -7,7 +7,7 @@
   >
     <div :class="['selection', creatingElement?.type]" v-if="start && end" :style="position">
 
-      <!-- 绘制线条专用 -->
+      <!-- Line drawing only -->
       <svg
         v-if="creatingElement?.type === 'line' && lineData"
         overflow="visible" 
@@ -53,8 +53,8 @@ onMounted(() => {
   offset.value = { x, y }
 })
 
-// 鼠标拖动创建元素生成位置大小
-// 获取范围的起始位置和终点位置
+// Generate element position and size by mouse drag
+// Get the start and end positions of the selection range
 const createSelection = (e: MouseEvent) => {
   let isMouseDown = true
 
@@ -68,19 +68,19 @@ const createSelection = (e: MouseEvent) => {
     let currentPageX = e.pageX
     let currentPageY = e.pageY
 
-    // 按住Ctrl键或者Shift键时：
-    // 对于非线条元素需要锁定宽高比例，对于线条元素需要锁定水平或垂直方向
+    // When holding Ctrl or Shift key:
+    // For non-line elements, lock aspect ratio; for line elements, lock horizontal or vertical direction
     if (ctrlOrShiftKeyActive.value) {
       const moveX = currentPageX - startPageX
       const moveY = currentPageY - startPageY
 
-      // 水平和垂直方向的拖动距离，后面以拖动距离较大的方向为基础计算另一方向的数据
+      // Horizontal and vertical drag distances; use the larger distance to calculate the other direction
       const absX = Math.abs(moveX)
       const absY = Math.abs(moveY)
 
       if (creatingElement.value.type === 'shape') {
 
-        // 判断是否为反向拖动：从左上到右下为正向操作，此外所有情况都是反向操作
+        // Check if dragging in reverse: top-left to bottom-right is forward; all other cases are reverse
         const isOpposite = (moveY > 0 && moveX < 0) || (moveY < 0 && moveX > 0)
 
         if (absX > absY) {
@@ -150,7 +150,7 @@ const createSelection = (e: MouseEvent) => {
   }
 }
 
-// 绘制线条的路径相关数据（仅当绘制元素类型为线条时使用）
+// Line path data (only used when creating element type is line)
 const lineData = computed(() => {
   if (!start.value || !end.value) return null
   if (!creatingElement.value || creatingElement.value.type !== 'line') return null
@@ -183,7 +183,7 @@ const lineData = computed(() => {
   }
 })
 
-// 根据生成范围的起始位置和终点位置，计算元素创建时的位置和大小
+// Calculate element position and size based on the start and end positions of the selection range
 const position = computed(() => {
   if (!start.value || !end.value) return {}
 

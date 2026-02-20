@@ -12,10 +12,10 @@ export default () => {
   const { addHistorySnapshot } = useHistorySnapshot()
 
   /**
-   * 将元素向指定方向移动指定的距离
-   * 组合元素成员中，存在被选中可独立操作的元素时，优先移动该元素。否则默认移动所有被选中的元素
-   * @param command 移动方向
-   * @param step 移动距离
+   * Move element in specified direction by specified distance
+   * When a group member element is selected for independent operation, move that element first. Otherwise move all selected elements by default
+   * @param command Movement direction
+   * @param step Movement distance
    */
   const moveElement = (command: string, step = 1) => {
     let newElementList: PPTElement[] = []

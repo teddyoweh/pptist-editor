@@ -11,7 +11,7 @@ export default () => {
     const dataItems = dataTransfer.items
     const dataTransferFirstItem = dataItems[0]
 
-    // 检查事件对象中是否存在有效文件，存在则插入对应数据，否则可继续检查是否存在文字
+    // Check if valid files exist in the event object; if so, insert the corresponding data, otherwise continue checking for text
     let isFile = false
 
     for (const item of dataItems) {

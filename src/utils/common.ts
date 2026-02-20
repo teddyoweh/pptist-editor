@@ -1,30 +1,30 @@
 import { padStart } from 'lodash'
 
 /**
- * 补足数字位数
- * @param digit 数字
- * @param len 位数
+ * Pad number with leading zeros
+ * @param digit Number
+ * @param len Number of digits
  */
 export const fillDigit = (digit: number, len: number) => {
   return padStart('' + digit, len, '0')
 }
 
 /**
- * 判断设备
+ * Check if device is PC
  */
 export const isPC = () => {
   return !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|Mobile|BlackBerry|Symbian|Windows Phone)/i)
 }
 
 /**
- * 判断URL字符串
+ * Validate URL string
  */
 export const isValidURL = (url: string) => {
   return /^(https?:\/\/)([\w-]+\.)+[\w-]{2,}(\/[\w-./?%&=]*)?$/i.test(url)
 }
 
 /**
- * HTML转纯文本
+ * Convert HTML to plain text
  */
 export const htmlToText = (html: string) => {
   const doc = new DOMParser().parseFromString(html, 'text/html')

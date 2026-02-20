@@ -155,7 +155,7 @@ export default () => {
 
   const exporting = ref(false)
 
-  // 导入JSON文件
+  // Import JSON file
   const importJSON = (files: FileList | File[], cover = false) => {
     const file = files[0]
 
@@ -175,13 +175,13 @@ export default () => {
         else addSlidesFromData(slides)
       }
       catch {
-        message.error('无法正确读取 / 解析该文件')
+        message.error('Unable to read / parse this file correctly')
       }
     })
     reader.readAsText(file)
   }
 
-  // 导入pptist文件
+  // Import pptist file
   const importSpecificFile = (files: FileList | File[], cover = false) => {
     const file = files[0]
 
@@ -201,7 +201,7 @@ export default () => {
         else addSlidesFromData(slides)
       }
       catch {
-        message.error('无法正确读取 / 解析该文件')
+        message.error('Unable to read / parse this file correctly')
       }
     })
     reader.readAsText(file)
@@ -260,19 +260,19 @@ export default () => {
     let start: [number, number] = [0, 0]
     let end: [number, number] = [0, 0]
 
-    if (!el.isFlipV && !el.isFlipH) { // 右下
+    if (!el.isFlipV && !el.isFlipH) { // Bottom-right
       start = [0, 0]
       end = [el.width, el.height]
     }
-    else if (el.isFlipV && el.isFlipH) { // 左上
+    else if (el.isFlipV && el.isFlipH) { // Top-left
       start = [el.width, el.height]
       end = [0, 0]
     }
-    else if (el.isFlipV && !el.isFlipH) { // 右上
+    else if (el.isFlipV && !el.isFlipH) { // Top-right
       start = [0, el.height]
       end = [el.width, 0]
     }
-    else { // 左下
+    else { // Bottom-left
       start = [el.width, 0]
       end = [0, el.height]
     }
@@ -334,16 +334,16 @@ export default () => {
   }
 
   const calculateRotatedPosition = (
-    ax: number, // A 的 x
-    ay: number, // A 的 y
-    aw: number, // A 的宽
-    ah: number, // A 的高
-    bx: number, // B 相对 A 的 x (ox)
-    by: number, // B 相对 A 的 y (oy)
-    bw: number, // B 的宽
-    bh: number, // B 的高
-    ak: number, // A 的旋转角度（度，正顺时针）
-    bk: number, // B 的旋转角度（度，正顺时针）
+    ax: number, // A's x position
+    ay: number, // A's y position
+    aw: number, // A's width
+    ah: number, // A's height
+    bx: number, // B's x relative to A (ox)
+    by: number, // B's y relative to A (oy)
+    bw: number, // B's width
+    bh: number, // B's height
+    ak: number, // A's rotation angle (degrees, clockwise positive)
+    bk: number, // B's rotation angle (degrees, clockwise positive)
   ) => {
     const aRadians = ak * (Math.PI / 180)
     const aCos = Math.cos(aRadians)
@@ -381,7 +381,7 @@ export default () => {
     return { x: minX, y: minY, globalRotation }
   }
 
-  // 导入PPTX文件
+  // Import PPTX file
   const importPPTXFile = (files: FileList | File[], options?: { cover?: boolean; fixedViewport?: boolean }) => {
     const defaultOptions = {
       cover: false,
@@ -407,7 +407,7 @@ export default () => {
       }
       catch {
         exporting.value = false
-        message.error('无法正确读取 / 解析该文件')
+        message.error('Unable to read / parse this file correctly')
         return
       }
 
@@ -902,7 +902,7 @@ export default () => {
               let series: number[][]
   
               if (el.chartType === 'scatterChart' || el.chartType === 'bubbleChart') {
-                labels = el.data[0].map((item, index) => `坐标${index + 1}`)
+                labels = el.data[0].map((item, index) => `Point${index + 1}`)
                 legends = ['X', 'Y']
                 series = el.data
               }

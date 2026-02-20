@@ -60,29 +60,29 @@ const currentElementComponent = computed<unknown>(() => {
 
 const { formatedAnimations, theme } = storeToRefs(useSlidesStore())
 
-// 判断元素是否需要等待执行入场动画：等待执行入场的元素需要先隐藏
+// Determine if element needs to wait for entrance animation: elements waiting for entrance need to be hidden first
 const needWaitAnimation = computed(() => {
-  // 该元素在本页动画序列中的位置
+  // Position of this element in the current page's animation sequence
   const elementIndexInAnimation = formatedAnimations.value.findIndex(item => {
     const elIds = item.animations.map(item => item.elId)
     return elIds.includes(props.elementInfo.id)
   })
 
-  // 该元素未设置过动画
+  // This element has no animation set
   if (elementIndexInAnimation === -1) return false
 
-  // 若该元素已执行过动画，都无须隐藏
-  // 具体来说：若已执行的最后一个动画为入场，显然无须隐藏；若已执行的最后一个动画为退场，由于保留了退场动画结束状态，也无需额外隐藏
+  // If this element has already executed its animation, no need to hide
+  // Specifically: if the last executed animation was an entrance, obviously no need to hide; if it was an exit, since the exit animation end state is preserved, no extra hiding needed
   if (elementIndexInAnimation < props.animationIndex) return false
 
-  // 若该元素未执行过动画，获取其将要执行的第一个动画
-  // 若将要执行的第一个动画为入场，则需要隐藏，否则无须隐藏
+  // If this element hasn't executed its animation yet, get its first animation to be executed
+  // If the first animation to execute is an entrance, it needs to be hidden, otherwise no hiding needed
   const firstAnimation = formatedAnimations.value[elementIndexInAnimation].animations.find(item => item.elId === props.elementInfo.id)
   if (firstAnimation?.type === 'in') return true
   return false
 })
 
-// 打开元素绑定的超链接
+// Open the hyperlink bound to the element
 const openLink = (e: MouseEvent) => {
   if ((e.target as HTMLElement).tagName === 'A') {
     props.manualExitFullscreen()

@@ -32,11 +32,11 @@
           <Popover placement="top" trigger="manual" :value="sizePopoverType === 'pen'" @hide="sizePopoverType = ''">
             <template #content>
               <div class="setting">
-                <div class="label">墨迹粗细：</div>
+                <div class="label">Stroke Width:</div>
                 <Slider class="size-slider" :min="4" :max="10" :step="2" v-model:value="penSize" />
               </div>
             </template>
-            <div class="btn" :class="{ 'active': writingBoardModel === 'pen' }" v-tooltip="'画笔'" @click="changeModel('pen')">
+            <div class="btn" :class="{ 'active': writingBoardModel === 'pen' }" v-tooltip="'Pen'" @click="changeModel('pen')">
               <i-icon-park-outline:write class="icon" />
             </div>
           </Popover>
@@ -49,40 +49,40 @@
                   <i-icon-park-outline:arrow-right class="icon" :class="{ 'active': shapeType === 'arrow' }" @click="shapeType = 'arrow'" />
                 </div>
                 <Divider type="vertical" />
-                <div class="label">墨迹粗细：</div>
+                <div class="label">Stroke Width:</div>
                 <Slider class="size-slider" :min="2" :max="8" :step="2" v-model:value="shapeSize" />
               </div>
             </template>
-            <div class="btn" :class="{ 'active': writingBoardModel === 'shape' }" v-tooltip="'形状'" @click="changeModel('shape')">
+            <div class="btn" :class="{ 'active': writingBoardModel === 'shape' }" v-tooltip="'Shape'" @click="changeModel('shape')">
               <i-icon-park-outline:graphic-design class="icon" />
             </div>
           </Popover>
           <Popover placement="top" trigger="manual" :value="sizePopoverType === 'mark'" @hide="sizePopoverType = ''">
             <template #content>
               <div class="setting">
-                <div class="label">墨迹粗细：</div>
+                <div class="label">Stroke Width:</div>
                 <Slider class="size-slider" :min="16" :max="40" :step="4" v-model:value="markSize" />
               </div>
             </template>
-            <div class="btn" :class="{ 'active': writingBoardModel === 'mark' }" v-tooltip="'荧光笔'" @click="changeModel('mark')">
+            <div class="btn" :class="{ 'active': writingBoardModel === 'mark' }" v-tooltip="'Highlighter'" @click="changeModel('mark')">
               <i-icon-park-outline:high-light class="icon" />
             </div>
           </Popover>
           <Popover placement="top" trigger="manual" :value="sizePopoverType === 'eraser'" @hide="sizePopoverType = ''">
             <template #content>
               <div class="setting">
-                <div class="label">橡皮大小：</div>
+                <div class="label">Eraser Size:</div>
                 <Slider class="size-slider" :min="20" :max="200" :step="20" v-model:value="rubberSize" />
               </div>
             </template>
-            <div class="btn" :class="{ 'active': writingBoardModel === 'eraser' }" v-tooltip="'橡皮擦'" @click="changeModel('eraser')">
+            <div class="btn" :class="{ 'active': writingBoardModel === 'eraser' }" v-tooltip="'Eraser'" @click="changeModel('eraser')">
               <i-icon-park-outline:erase class="icon" />
             </div>
           </Popover>
-          <div class="btn" v-tooltip="'清除墨迹'" @click="clearCanvas()">
+          <div class="btn" v-tooltip="'Clear All'" @click="clearCanvas()">
             <i-icon-park-outline:clear class="icon" />
           </div>
-          <div class="btn" :class="{ 'active': blackboard }" v-tooltip="'黑板'" @click="blackboard = !blackboard">
+          <div class="btn" :class="{ 'active': blackboard }" v-tooltip="'Blackboard'" @click="blackboard = !blackboard">
             <i-icon-park-outline:fill class="icon" />
           </div>
           <div class="colors">
@@ -96,7 +96,7 @@
             ></div>
           </div>
         </div>
-        <div class="btn close" v-tooltip="'关闭画笔'" @click="closeWritingBoard()">
+        <div class="btn close" v-tooltip="'Close'" @click="closeWritingBoard()">
           <i-icon-park-outline:close class="icon" />
         </div>
       </div>
@@ -153,23 +153,23 @@ const changeModel = (model: WritingBoardModel) => {
   sizePopoverType.value = sizePopoverType.value === model ? '' : model
 }
 
-// 清除画布上的墨迹
+// Clear all strokes from canvas
 const clearCanvas = () => {
   writingBoardRef.value!.clearCanvas()
 }
 
-// 修改画笔颜色，如果当前处于橡皮状态则先切换到画笔状态
+// Change pen color; if currently in eraser mode, switch to pen mode first
 const changeColor = (color: string) => {
   if (writingBoardModel.value === 'eraser') writingBoardModel.value = 'pen'
   writingBoardColor.value = color
 }
 
-// 关闭写字板
+// Close writing board
 const closeWritingBoard = () => {
   emit('close')
 }
 
-// 打开画笔工具或切换页面时，将数据库中存储的墨迹绘制到画布上
+// When opening drawing tools or switching slides, draw stored strokes from database to canvas
 watch(currentSlide, () => {
   db.writingBoardImgs.where('id').equals(currentSlide.value.id).toArray().then(ret => {
     const currentImg = ret[0]
@@ -177,7 +177,7 @@ watch(currentSlide, () => {
   })
 }, { immediate: true })
 
-// 每次绘制完成后将绘制完的图片更新到数据库
+// After each drawing action, update the image in the database
 const hanldeWritingEnd = () => {
   const dataURL = writingBoardRef.value!.getImageDataURL()
   if (!dataURL) return

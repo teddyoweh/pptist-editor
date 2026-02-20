@@ -1,6 +1,6 @@
 /**
- * 将普通文本转为带段落信息的HTML字符串
- * @param text 文本
+ * Convert plain text to HTML string with paragraph information
+ * @param text The text to convert
  */
 export const parseText2Paragraphs = (text: string) => {
   const htmlText = text.replace(/[\n\r]+/g, '<br>')

@@ -15,12 +15,12 @@
     <Divider />
 
     <div class="row">
-      <div style="width: 40%;">行间距：</div>
+      <div style="width: 40%;">Line Spacing:</div>
       <Select style="width: 60%;"
         :value="lineHeight || 1"
         @update:value="value => updateText({ lineHeight: value as number })"
         :options="lineHeightOptions.map(item => ({
-          label: item + '倍', value: item
+          label: item + 'x', value: item
         }))"
       >
         <template #icon>
@@ -29,7 +29,7 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">段间距：</div>
+      <div style="width: 40%;">Paragraph Spacing:</div>
       <Select style="width: 60%;"
         :value="paragraphSpace || 0"
         @update:value="value => updateText({ paragraphSpace: value as number })"
@@ -43,7 +43,7 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">字间距：</div>
+      <div style="width: 40%;">Letter Spacing:</div>
       <Select style="width: 60%;"
         :value="wordSpace || 0"
         @update:value="value => updateText({ wordSpace: value as number })"
@@ -57,7 +57,7 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">文本框填充：</div>
+      <div style="width: 40%;">Text Box Fill:</div>
       <Popover trigger="click" style="width: 60%;">
         <template #content>
           <ColorPicker
@@ -96,11 +96,11 @@ import Divider from '@/components/Divider.vue'
 import Select from '@/components/Select.vue'
 import Popover from '@/components/Popover.vue'
 
-// 注意，存在一个未知原因的BUG，如果文本加粗后文本框高度增加，画布的可视区域定位会出现错误
-// 因此在执行预置样式命令时，将加粗命令放在尽可能靠前的位置，避免字号增大后再加粗
+// Note: There's a bug where if text becomes bold and the text box height increases, the canvas viewport positioning can become incorrect
+// Therefore, when executing preset style commands, place the bold command as early as possible to avoid bolding after font size increases
 const presetStyles = [
   {
-    label: '大标题',
+    label: 'Title',
     style: {
       fontSize: '26px',
       fontWeight: 700,
@@ -113,7 +113,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '小标题',
+    label: 'Subtitle',
     style: {
       fontSize: '22px',
       fontWeight: 700,
@@ -126,7 +126,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '正文',
+    label: 'Body',
     style: {
       fontSize: '20px',
     },
@@ -136,7 +136,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '正文[小]',
+    label: 'Body [Small]',
     style: {
       fontSize: '18px',
     },
@@ -146,7 +146,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '注释 1',
+    label: 'Caption 1',
     style: {
       fontSize: '16px',
       fontStyle: 'italic',
@@ -158,7 +158,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '注释 2',
+    label: 'Caption 2',
     style: {
       fontSize: '16px',
       textDecoration: 'underline',
@@ -201,7 +201,7 @@ const lineHeightOptions = [0.9, 1.0, 1.15, 1.2, 1.4, 1.5, 1.8, 2.0, 2.5, 3.0]
 const wordSpaceOptions = [0, 1, 2, 3, 4, 5, 6, 8, 10]
 const paragraphSpaceOptions = [0, 5, 10, 15, 20, 25, 30, 40, 50, 80]
 
-// 发送富文本设置命令（批量）
+// Send rich text commands (batch)
 const emitBatchRichTextCommand = (action: RichTextAction[]) => {
   emitter.emit(EmitterEvents.RICH_TEXT_COMMAND, { action })
 }
