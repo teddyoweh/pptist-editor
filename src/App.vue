@@ -95,26 +95,59 @@ window.addEventListener('message', async (event: MessageEvent) => {
 })
 
 onMounted(async () => {
-  // Check for ?file= URL parameter to auto-import a .pptx file
   const urlParams = new URLSearchParams(window.location.search)
   const fileUrl = urlParams.get('file')
   const waitForBase64 = urlParams.get('base64')
 
+  let loadedFromUrl = false
+
+  // Try to load from ?file= URL parameter
   if (fileUrl) {
+    console.log('[PPTist] Loading file from URL:', fileUrl)
     try {
-      const response = await fetch(fileUrl)
+      // Try fetch with CORS first
+      const response = await fetch(fileUrl, {
+        mode: 'cors',
+        credentials: 'include',
+      })
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+      
       const arrayBuffer = await response.arrayBuffer()
-      importFromArrayBuffer(arrayBuffer)
+      console.log('[PPTist] Fetched file, size:', arrayBuffer.byteLength)
+      
+      if (arrayBuffer.byteLength > 0) {
+        importFromArrayBuffer(arrayBuffer)
+        loadedFromUrl = true
+        
+        // Notify parent of successful load
+        if (isEmbedded) {
+          window.parent.postMessage({ type: 'file-loaded', success: true, url: fileUrl }, '*')
+        }
+      }
     }
     catch (err) {
-      console.error('Failed to fetch file from URL:', err)
-      // Fall back to loading default slides
-      const defaultSlides = await api.getMockData('slides')
-      slidesStore.setSlides(defaultSlides)
+      console.error('[PPTist] Failed to fetch file from URL:', err)
+      
+      // Notify parent of failure
+      if (isEmbedded) {
+        window.parent.postMessage({ 
+          type: 'file-loaded', 
+          success: false, 
+          url: fileUrl,
+          error: err instanceof Error ? err.message : 'Unknown error'
+        }, '*')
+      }
     }
   }
-  else if (!waitForBase64) {
-    // Load default mock data if not waiting for postMessage import
+
+  // Load defaults only if:
+  // 1. No URL was provided or URL fetch failed
+  // 2. Not waiting for base64 postMessage
+  if (!loadedFromUrl && !waitForBase64) {
+    console.log('[PPTist] Loading default slides')
     const defaultSlides = await api.getMockData('slides')
     slidesStore.setSlides(defaultSlides)
   }
